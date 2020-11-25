@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Side</title>
+</head>
+<body>
+    <nav th:replace="home :: navbar"></nav>
+    <header th:replace="home :: header"></header>
+    <div class="alert alert-danger" th:if="${isCorrect}">
+        Congrats!
+        <a href="/roll-dice">That Was Fun Lets Try Again</a>
+    </div>
+    <div class="alert alert-danger" th:if="${isCorrect}==null">
+        <a href="/roll-dice">Try Again!</a>
+    </div>
+    <footer th:replace="partials/_footer"></footer>
+</body>
+</html>

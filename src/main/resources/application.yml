@@ -1,0 +1,3 @@
+spring:
+  profiles:
+    active: dev  #dev when in development or change to prod when in production mode

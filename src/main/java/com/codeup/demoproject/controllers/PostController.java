@@ -24,7 +24,7 @@ public class PostController {
     }
 
     @PostMapping("/posts/create") @ResponseBody
-    public String writePost(){
+    public String submitPost(){
         return "Sending your post";
     }
 }

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Join Form</title>
+</head>
+<body>
+<!--    inserting a part of a file -->
+<!--get the file name or path and fragment name-->
+<nav th:replace="home :: navbar"></nav>
+<h1 th:text="${cohort}"></h1>
+    <ul>
+<!--        for loop using thyme-->
+        <li th:each="name :${cohortNames}">
+            <span th:text="${name}"></span>
+        </li>
+    </ul>
+
+<!--        if loop using thyme-->
+<div th:if="${cohort == null}">
+    <form action="/join" method="post">
+        <input type="text" name="cohort" id="cohort-ip" class="field" />
+        <button>Join now</button>
+    </form>
+</div>
+
+<footer>
+<!--    inserting other files-->
+    <div th:replace="partials/_footer"></div>
+
+    
+</footer>
+</body>
+</html>
