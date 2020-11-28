@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<span th:text="${ad.getId()}"></span>
+<span th:text="${ad.getString('user_id')}"></span>
+
+<span th:text="${ad.getString('price')}"></span>
+<span th:text="${ad.getString('title')}"></span>
+<span th:text="${ad.getString('description')}"></span>
+<span th:text="${ad.getString('sold')}"></span>
+<span th:text="${ad.getString('location')}"></span>
+</body>
+</html>

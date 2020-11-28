@@ -5,6 +5,10 @@
     <title>Title</title>
 </head>
 <body>
+<span th:text="${user.getId()}"></span>
 <span th:text="${user.getString('username')}"></span>
+<span th:text="${user.getString('email')}"></span>
+<span th:text="${user.getString('avatar')}"></span>
+<span th:text="${user.getString('role')}"></span>
 </body>
 </html>
