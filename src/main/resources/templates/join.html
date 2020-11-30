@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta th:replace="partials/bootstrap_head">
     <title>Join Form</title>
 </head>
 <body>
 <!--    inserting a part of a file -->
 <!--get the file name or path and fragment name-->
-<nav th:replace="home :: navbar"></nav>
+<nav th:replace="partials/navbar"></nav>
 <h1 th:text="${cohort}"></h1>
     <ul>
 <!--        for loop using thyme-->
@@ -24,11 +24,7 @@
     </form>
 </div>
 
-<footer>
-<!--    inserting other files-->
-    <div th:replace="partials/_footer"></div>
-
-    
-</footer>
+<footer th:replace="partials/_footer"></footer>
+<div th:replace="partials/bootsrap_srcipts"></div>
 </body>
 </html>

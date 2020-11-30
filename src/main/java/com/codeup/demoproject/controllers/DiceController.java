@@ -4,8 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Random;
 
@@ -13,7 +11,7 @@ import java.util.Random;
 public class DiceController {
     @GetMapping("/roll-dice")
     public String diceRoll(){
-          return "/roll-dice";
+          return "/dice/roll-dice";
     }
 
     @GetMapping("/roll-dice/{side}")
@@ -23,6 +21,6 @@ public class DiceController {
         if(side == rand.nextInt(6)+1){
             model.addAttribute("isCorrect","yes");
         }
-        return "/show-side";
+        return "/dice/show-side";
     }
 }

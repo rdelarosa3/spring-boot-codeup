@@ -3,14 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta th:replace="partials/bootstrap_head">
-    <title>HomePage</title>
+    <title>Title</title>
 </head>
 <body>
 <nav th:replace="partials/navbar"></nav>
-      <h1>Hello, <span th:text="${name}">World</span></h1>
-<h3></h3>
+<div class="container">
+    <h1>Post</h1>
+
+    <p th:text="'Title: ' + ${title}"></p>
+    <p th:text="'Content: ' + ${description}"></p>
+    <a href="/posts/new">Create another post</a>
+
+</div>
 <footer th:replace="partials/_footer"></footer>
 <div th:replace="partials/bootsrap_srcipts"></div>
-
 </body>
 </html>

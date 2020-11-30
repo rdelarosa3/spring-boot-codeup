@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta th:replace="/partials/bootstrap_head">
     <title>Show Side</title>
 </head>
 <body>
-    <nav th:replace="home :: navbar"></nav>
-    <header th:replace="home :: header"></header>
+    <nav th:replace="/partials/navbar"></nav>
     <div class="alert alert-danger" th:if="${isCorrect}">
         Congrats!
         <a href="/roll-dice">That Was Fun Lets Try Again</a>
@@ -14,6 +14,8 @@
     <div class="alert alert-danger" th:if="${isCorrect}==null">
         <a href="/roll-dice">Try Again!</a>
     </div>
-    <footer th:replace="partials/_footer"></footer>
+    <footer th:replace="/partials/_footer"></footer>
+    <script th:replace="/partials/bootsrap_srcipts"></script>
+
 </body>
 </html>
