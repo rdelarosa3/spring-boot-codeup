@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta th:replace="partials/bootstrap_head">
-    <title>Title</title>
-</head>
+<head th:replace="partials/head :: head('Create Posts')"></head>
 <body>
 <nav th:replace="partials/navbar"></nav>
 <div class="container">
-    <form action="#" th:action="@{/posts/new}"  method="post">
+    <form th:action="@{/posts/create}"  method="post">
         <div class="form-group">
             <label for="title">Title</label>
             <input type="text" class="form-control" id="title" aria-describedby="titleHelp" placeholder="Enter your title">
             <small id="titleHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group">
-            <label for="description">Password</label>
+            <label for="description">Content</label>
             <input type="text" class="form-control" id="description" placeholder="Post content">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>

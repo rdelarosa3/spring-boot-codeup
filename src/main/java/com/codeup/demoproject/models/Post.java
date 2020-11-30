@@ -1,26 +1,38 @@
 package com.codeup.demoproject.models;
 
 public class Post {
-    private String title;
-    private String body;
+    long id;
+    String title;
+    String description;
 
     public Post(){};
-    public Post(String title,String body){
+    public Post(long id, String title, String description) {
+        this.id = id;
         this.title = title;
-        this.body = body;
+        this.description = description;
     }
 
-    public String getTitle(){
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
         return title;
     }
-    public void setTitle(String title){
+
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getBody(){
-        return title;
+    public String getDescription() {
+        return description;
     }
-    public void setBody(String body){
-        this.body = body;
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

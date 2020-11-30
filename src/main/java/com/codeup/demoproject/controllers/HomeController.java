@@ -31,7 +31,7 @@ public class HomeController {
         cohortNames.add("COBOL");
         cohortNames.add("Draco");
         model.addAttribute("cohortNames",cohortNames);
-        return "/join";
+        return "join";
     }
 
     // get params from url
@@ -39,6 +39,6 @@ public class HomeController {
     public String postJoin(@RequestParam(name ="cohort") String cohort, Model model){
 
         model.addAttribute("cohort",cohort);
-        return  "/join" ;
+        return  "join" ;
     }
 }

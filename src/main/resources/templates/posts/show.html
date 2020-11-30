@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta th:replace="partials/bootstrap_head">
-    <title>Title</title>
+<head th:replace="partials/head :: head('Ad')">
 </head>
 <body>
 <nav th:replace="partials/navbar"></nav>
 <div class="container">
     <h1>Post</h1>
-     <p th:text="${id}"></p>
-    <p th:text="${title}"></p>
-    <p th:text="${description}"></p>
+     <p th:text="${post.id}"></p>
+    <p th:text="${post.title}"></p>
+    <p th:text="${post.description}"></p>
     <a href="/posts/create">Create another post</a>
 </div>
 <footer th:replace="partials/_footer"></footer>

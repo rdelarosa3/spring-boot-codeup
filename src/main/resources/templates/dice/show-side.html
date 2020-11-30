@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta th:replace="/partials/bootstrap_head">
-    <title>Show Side</title>
-</head>
+<head th:replace="partials/head :: head('Dice Guess')"></head>
 <body>
     <nav th:replace="/partials/navbar"></nav>
     <div class="alert alert-danger" th:if="${isCorrect}">

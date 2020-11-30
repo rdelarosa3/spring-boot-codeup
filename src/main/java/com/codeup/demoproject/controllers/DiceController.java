@@ -11,7 +11,7 @@ import java.util.Random;
 public class DiceController {
     @GetMapping("/roll-dice")
     public String diceRoll(){
-          return "/dice/roll-dice";
+          return "dice/roll-dice";
     }
 
     @GetMapping("/roll-dice/{side}")
@@ -21,6 +21,6 @@ public class DiceController {
         if(side == rand.nextInt(6)+1){
             model.addAttribute("isCorrect","yes");
         }
-        return "/dice/show-side";
+        return "dice/show-side";
     }
 }
