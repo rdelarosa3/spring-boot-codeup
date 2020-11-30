@@ -9,11 +9,10 @@
 <nav th:replace="partials/navbar"></nav>
 <div class="container">
     <h1>Post</h1>
-
-    <p th:text="'Title: ' + ${title}"></p>
-    <p th:text="'Content: ' + ${description}"></p>
-    <a href="/posts/new">Create another post</a>
-
+     <p th:text="${id}"></p>
+    <p th:text="${title}"></p>
+    <p th:text="${description}"></p>
+    <a href="/posts/create">Create another post</a>
 </div>
 <footer th:replace="partials/_footer"></footer>
 <div th:replace="partials/bootsrap_srcipts"></div>

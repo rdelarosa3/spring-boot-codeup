@@ -7,6 +7,21 @@
 </head>
 <body>
 <nav th:replace="partials/navbar"></nav>
+<table>
+    <tr>
+        <th>id</th>
+        <th>title</th>
+        <th>description</th>
+        <th>url</th>
+
+    </tr>
+    <tr th:each="post : ${posts}">
+        <td th:text="${post.id}"></td>
+        <td th:text="${post.title}"></td>
+        <td th:text="${post.description}"></td>
+        <td><a th:href="@{'posts/'+${post.id}+'/'+${post.title}+'/'+${post.description}}">view</a></td>
+    </tr>
+</table>
 <footer th:replace="partials/_footer"></footer>
 <div th:replace="partials/bootsrap_srcipts"></div>
 </body>
