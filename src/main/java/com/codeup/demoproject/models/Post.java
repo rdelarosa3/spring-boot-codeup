@@ -1,11 +1,27 @@
 package com.codeup.demoproject.models;
 
-public class Post {
-    long id;
-    String title;
-    String description;
+import javax.persistence.*;
 
-    public Post(){};
+@Entity
+@Table(name="posts")
+public class Post {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(nullable = false,length = 100)
+    private String title;
+    @Column(nullable = false,columnDefinition = "TEXT")
+    private String description;
+    // Temp Post
+    public Post(){}
+
+    // Setter
+    public Post(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+    // Getter
     public Post(long id, String title, String description) {
         this.id = id;
         this.title = title;

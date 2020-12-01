@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials/head :: head('Posts')"></head>
+<head th:replace="partials/head :: head('Ads')"></head>
 <body>
 <nav th:replace="partials/navbar"></nav>
-<a href="/posts/create">Create a Post</a>
+<a href="/posts/create">Create an Ad</a>
 <table>
     <tr>
         <th>id</th>
@@ -12,11 +12,11 @@
         <th>url</th>
 
     </tr>
-    <tr th:each="post : ${posts}">
-        <td th:utext="${post.id}"></td>
-        <td th:utext="${post.title}"></td>
-        <td th:utext="${post.description}"></td>
-        <td><a th:href="@{|posts/${post.id}|}">view</a></td>
+    <tr th:each="ad : ${ads}">
+        <td th:utext="${ad.id}"></td>
+        <td th:utext="${ad.title}"></td>
+        <td th:utext="${ad.description}"></td>
+        <td><a th:href="@{'ads/'+${ad.id}}">view</a></td>
     </tr>
 </table>
 <footer th:replace="partials/_footer"></footer>
