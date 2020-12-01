@@ -1,17 +1,11 @@
 package com.codeup.demoproject.controllers;
 
-import com.codeup.demoproject.models.Ad;
+
 import com.codeup.demoproject.models.Post;
-import com.codeup.demoproject.repos.AdRepository;
 import com.codeup.demoproject.repos.PostRepository;
-import com.github.javafaker.Faker;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Controller
