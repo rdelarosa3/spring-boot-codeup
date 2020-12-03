@@ -1,42 +1,30 @@
 package com.codeup.demoproject.controllers;
 
+
 import com.codeup.demoproject.models.Post;
-import com.github.javafaker.Faker;
+import com.codeup.demoproject.repos.PostRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Controller
 public class PostController {
-    public Faker faker = new Faker();
-    public List<Post> posts = new ArrayList<>();
+    private final PostRepository postDao;
 
-    public void seedPosts(){
-        for(int i = 1; i <= 20; i++){
-            posts.add(new Post(
-                    i,
-                    faker.book().title(),
-                    faker.shakespeare().asYouLikeItQuote()
-            ));
-        }
+    public PostController(PostRepository postDao) {
+        this.postDao = postDao;
     }
 
     @GetMapping("/posts")
     public String index(Model model){
-        if(posts.size()<1) seedPosts();
-        model.addAttribute("posts",posts);
+        model.addAttribute("posts",postDao.findAll());
         return "posts/index";
     }
 
     @GetMapping("/posts/{id}")
-    public String viewPost(@PathVariable int id,  Model model ){
-        Post post = posts.get(id-1);
-        model.addAttribute("post",post);
+    public String viewPost(@PathVariable(name= "id") long id,  Model model ){
+        model.addAttribute("post",postDao.getOne(id));
         return "posts/show";
     }
 
@@ -47,12 +35,32 @@ public class PostController {
 
     @PostMapping("/posts/create")
     public String submitPost(@RequestParam Map<String, String> requestParams){
-        Post p = new Post(posts.size()+1,requestParams.get("title"),requestParams.get("description"));
-        posts.add(p);
-        if (posts.get(posts.size()-1).getId() == p.getId()){
-            System.out.println("this is my post id :"+p.getId());
-            return "redirect:/posts/"+p.getId();
-        }
-        return "posts/new";
+        Post p = new Post(requestParams.get("title"),requestParams.get("description"));
+        postDao.save(p);
+        return "redirect:/posts/"+p.getId();
     }
+
+    @PostMapping("/posts/{id}/delete")
+    public String destroyPost(@PathVariable long id){
+        Post post = postDao.getOne(id);
+        postDao.delete(post);
+        return "redirect:/posts";
+    }
+
+    @GetMapping("/posts/{id}/edit")
+    public String putPost(@PathVariable(name= "id") long id,Model model){
+        model.addAttribute("post",postDao.getOne(id));
+        return "posts/edit";
+    }
+
+    @PostMapping("/posts/{id}/edit")
+    public String patchPost(@PathVariable(name= "id") long id, @RequestParam Map<String, String> requestParams,Model model){
+        Post post = postDao.getOne(id);
+        post.setTitle(requestParams.get("title"));
+        post.setDescription(requestParams.get("description"));
+        postDao.save(post);
+        model.addAttribute("post",post);
+        return "redirect:/posts/"+post.getId();
+    }
+
 }
