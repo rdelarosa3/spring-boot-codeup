@@ -13,19 +13,35 @@ public class Post {
     private String title;
     @Column(nullable = false,columnDefinition = "TEXT")
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private User author;
+
     // Temp Post
     public Post(){}
 
     // Setter
-    public Post(String title, String description) {
+    public Post(String title, String description,User author) {
         this.title = title;
         this.description = description;
+        this.author = author;
     }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
     // Getter
-    public Post(long id, String title, String description) {
+    public Post(long id, String title, String description, User author) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.author = author;
     }
 
     public long getId() {

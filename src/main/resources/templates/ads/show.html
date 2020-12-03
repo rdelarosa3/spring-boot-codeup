@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/head :: head('Ad')">
 </head>
 <body>
-
+<nav th:replace="partials/navbar"></nav>
+<div class="container">
+    <h1>Post</h1>
+    <p th:text="${ad.id}"></p>
+    <p th:text="${ad.title}"></p>
+    <p th:text="${ad.description}"></p>
+    <p th:text="${ad.owner.username}"></p>
+    <h6>Here are the categories for the ad:</h6>
+    <ul>
+        <li th:each="category : ${ad.categories}" th:text="${category.name}" />
+    </ul>
+    <a th:href="@{/ads/{id}/edit(id=${ad.id})}">Edit ad</a>
+</div>
+<a th:href="@{|/ads|}">View all ads</a>
+<a th:href="@{|/ads/create|}">Create another ad</a>
+</div>
+<footer th:replace="partials/_footer"></footer>
+<div th:replace="partials/bootsrap_srcipts"></div>
 </body>
 </html>

@@ -1,19 +1,26 @@
 package com.codeup.demoproject.controllers;
 
 
+import com.codeup.demoproject.models.Ad;
 import com.codeup.demoproject.models.Post;
+import com.codeup.demoproject.models.User;
 import com.codeup.demoproject.repos.PostRepository;
+import com.codeup.demoproject.repos.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Map;
 
 @Controller
 public class PostController {
     private final PostRepository postDao;
+    private final UserRepository userDao;
 
-    public PostController(PostRepository postDao) {
+    public PostController(PostRepository postDao,UserRepository userDao) {
         this.postDao = postDao;
+        this.userDao = userDao;
     }
 
     @GetMapping("/posts")
@@ -35,7 +42,8 @@ public class PostController {
 
     @PostMapping("/posts/create")
     public String submitPost(@RequestParam Map<String, String> requestParams){
-        Post p = new Post(requestParams.get("title"),requestParams.get("description"));
+        User u = userDao.getOne(1L);
+        Post p = new Post(requestParams.get("title"),requestParams.get("description"),u);
         postDao.save(p);
         return "redirect:/posts/"+p.getId();
     }
@@ -61,6 +69,18 @@ public class PostController {
         postDao.save(post);
         model.addAttribute("post",post);
         return "redirect:/posts/"+post.getId();
+    }
+
+    @GetMapping("/posts/search")
+    public String search(){
+        return "posts/search";
+    }
+    @PostMapping("/posts/search")
+    public String submitSearch(@RequestParam(name = "term") String term, Model viewModel){
+        term = "%"+term+"%";
+        List<Post> dbPosts = postDao.findAllByTitleLikeOrDescriptionLike(term,term);
+        viewModel.addAttribute("posts", dbPosts);
+        return "posts/index";
     }
 
 }

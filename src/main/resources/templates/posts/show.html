@@ -6,11 +6,10 @@
 <nav th:replace="partials/navbar"></nav>
 <div class="container">
     <h1>Post</h1>
-     <p th:text="${post.id}"></p>
+    <p th:text="${post.id}"></p>
     <p th:text="${post.title}"></p>
     <p th:text="${post.description}"></p>
-    <a th:href="@{/posts/{id}/edit(id=${post.id})}">Edit post</a>
-    </div>
+    <a th:href="@{/users/{id}(id=${post.author.id})}"> <p th:text="${post.author.email}"></p></a>
     <a th:href="@{|/posts|}">View all posts</a>
     <a th:href="@{|/posts/create|}">Create another post</a>
 </div>

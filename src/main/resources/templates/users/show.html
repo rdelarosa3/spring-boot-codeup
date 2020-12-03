@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/head :: head(${user.username + ' Profile'})">
+</head>
+<body>
+<nav th:replace="partials/navbar"></nav>
+<div class="container">
+    <h1><span th:text="${user.username.toUpperCase()}"></span></h1>
+    <p th:text="${user.email}"></p>
+    <h3><span th:text="${user.username.toUpperCase()}"></span>'S POSTS</h3>
+    <ul th:each="post : ${user.posts}">
+        <li th:text="${post.id}"></li>
+        <li th:text="${post.title}"></li>
+        <li th:text="${post.description}"></li>
+        <li th:text="${post.author.username}"></li>
+        <li><a th:href="@{/posts/{id}/edit(id=${post.id})}">Edit post</a></li>
+    </ul>
+
+    <a th:href="@{|/posts|}">View all posts</a>
+    <a th:href="@{|/posts/create|}">Create another post</a>
+</div>
+<footer th:replace="partials/_footer"></footer>
+<div th:replace="partials/bootsrap_srcipts"></div>
+</body>
+</html>
