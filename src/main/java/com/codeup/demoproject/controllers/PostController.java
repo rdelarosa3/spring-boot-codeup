@@ -37,14 +37,14 @@ public class PostController {
     public String submitPost(@RequestParam Map<String, String> requestParams){
         Post p = new Post(requestParams.get("title"),requestParams.get("description"));
         postDao.save(p);
-        return "posts/new";
+        return "redirect:/posts/"+p.getId();
     }
 
-    @GetMapping("/posts/{id}/delete")
+    @PostMapping("/posts/{id}/delete")
     public String destroyPost(@PathVariable long id){
         Post post = postDao.getOne(id);
         postDao.delete(post);
-        return "redirect:/posts/create";
+        return "redirect:/posts";
     }
 
     @GetMapping("/posts/{id}/edit")
@@ -53,15 +53,14 @@ public class PostController {
         return "posts/edit";
     }
 
-    @PostMapping("/posts/edit")
-    public String patchPost(@RequestParam Map<String, String> requestParams,Model model){
-        System.out.println("In postMapping edit");
-        Post post = postDao.getOne(Long.parseLong(requestParams.get("id")));
+    @PostMapping("/posts/{id}/edit")
+    public String patchPost(@PathVariable(name= "id") long id, @RequestParam Map<String, String> requestParams,Model model){
+        Post post = postDao.getOne(id);
         post.setTitle(requestParams.get("title"));
         post.setDescription(requestParams.get("description"));
         postDao.save(post);
         model.addAttribute("post",post);
-        return "redirect:/posts/"+post.getId()+"/edit";
+        return "redirect:/posts/"+post.getId();
     }
 
 }

@@ -3,8 +3,7 @@
 <head th:replace="partials/head :: head('Edit Post')"></head>
 <body>
 <nav th:replace="partials/navbar"></nav>
-<form th:action="@{/posts/edit}" method="post">
-    <input type="hidden" name="id" th:value="${post.id}">
+<form th:action="@{/posts/{id}/edit(id=${post.id})}" method="post">
     <div class="form-group">
         <label for="title">Title</label>
         <input type="text" name="title" class="form-control" id="title" aria-describedby="titleHelp" th:value="${post.title}" >
@@ -16,6 +15,10 @@
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<form th:action="@{/posts/{id}/delete(id=${post.id})}" th:method="post">
+    <button class="btn btn-danger" type="submit">Delete post</button>
+</form>
+<a th:href="@{|/posts|}">View all posts</a>
 <footer th:replace="partials/_footer"></footer>
 <div th:replace="partials/bootsrap_srcipts"></div>
 </body>
