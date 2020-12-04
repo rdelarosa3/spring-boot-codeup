@@ -6,6 +6,7 @@ import com.codeup.demoproject.models.Post;
 import com.codeup.demoproject.models.User;
 import com.codeup.demoproject.repos.PostRepository;
 import com.codeup.demoproject.repos.UserRepository;
+import com.codeup.demoproject.services.EmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +18,16 @@ import java.util.Map;
 public class PostController {
     private final PostRepository postDao;
     private final UserRepository userDao;
+    private final EmailService emailService;
 
-    public PostController(PostRepository postDao,UserRepository userDao) {
+
+    public PostController(PostRepository postDao,UserRepository userDao,EmailService emailService) {
         this.postDao = postDao;
         this.userDao = userDao;
+        this.emailService = emailService;
     }
+
+
 
     @GetMapping("/posts")
     public String index(Model model){
@@ -46,6 +52,8 @@ public class PostController {
         User uDb = userDao.getOne(1L);
         postToSave.setAuthor(uDb);
         Post pDb = postDao.save(postToSave);
+        String subject = "Thank you from Adlister";
+        emailService.prepareAndSend(pDb,subject,eBody(pDb));
         return "redirect:/posts/"+pDb.getId();
     }
 
@@ -82,4 +90,7 @@ public class PostController {
         return "posts/index";
     }
 
+    public String eBody(Post post){
+       return post.getAuthor().getUsername()+" thank you for creating a post. Your Post can now be seen at http://localhost:8080/posts/"+post.getId();
+    }
 }
