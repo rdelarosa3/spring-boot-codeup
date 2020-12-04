@@ -36,16 +36,17 @@ public class PostController {
     }
 
     @GetMapping("/posts/create")
-    public String createPost(){
+    public String createPost(Model model){
+        model.addAttribute("post",new Post());
         return "posts/new";
     }
 
     @PostMapping("/posts/create")
-    public String submitPost(@RequestParam Map<String, String> requestParams){
-        User u = userDao.getOne(1L);
-        Post p = new Post(requestParams.get("title"),requestParams.get("description"),u);
-        postDao.save(p);
-        return "redirect:/posts/"+p.getId();
+    public String submitPost(@ModelAttribute Post postToSave){
+        User uDb = userDao.getOne(1L);
+        postToSave.setAuthor(uDb);
+        Post pDb = postDao.save(postToSave);
+        return "redirect:/posts/"+pDb.getId();
     }
 
     @PostMapping("/posts/{id}/delete")
@@ -56,19 +57,17 @@ public class PostController {
     }
 
     @GetMapping("/posts/{id}/edit")
-    public String putPost(@PathVariable(name= "id") long id,Model model){
+    public String patchPost(@PathVariable(name= "id") long id,Model model){
         model.addAttribute("post",postDao.getOne(id));
         return "posts/edit";
     }
 
     @PostMapping("/posts/{id}/edit")
-    public String patchPost(@PathVariable(name= "id") long id, @RequestParam Map<String, String> requestParams,Model model){
-        Post post = postDao.getOne(id);
-        post.setTitle(requestParams.get("title"));
-        post.setDescription(requestParams.get("description"));
-        postDao.save(post);
-        model.addAttribute("post",post);
-        return "redirect:/posts/"+post.getId();
+    public String putPost(@PathVariable(name= "id") long id, @ModelAttribute Post postToPut,Model model){
+        Post putPost = postDao.save(postToPut);
+
+        model.addAttribute("post",putPost);
+        return "redirect:/posts/"+putPost.getId();
     }
 
     @GetMapping("/posts/search")
