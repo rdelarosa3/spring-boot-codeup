@@ -1,6 +1,7 @@
 package com.codeup.demoproject.controllers;
 
 import com.codeup.demoproject.models.Ad;
+import com.codeup.demoproject.models.User;
 import com.codeup.demoproject.repos.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,15 +43,17 @@ public class AdController {
     }
 
     @GetMapping("/ads/create")
-    public String showCreateForm(){
+    public String showCreateForm(Model model){
+        model.addAttribute("ad",new Ad());
         return "ads/new";
     }
 
     @PostMapping("/ads/create")
-    public String createAd(@RequestParam Map<String, String> requestParams){
-        Ad ad = new Ad(requestParams.get("title"),requestParams.get("description"),null,null);
-        Ad dbAd = adDao.save(ad);
-        return "ads/new";
+    public String createAd(@ModelAttribute Ad adToSave){
+        User uDb = userDao.getOne(1L);
+        adToSave.setOwner(uDb);
+        Ad dbAd = adDao.save(adToSave);
+        return "redirect:/ads/"+dbAd.getId();
     }
 }
 

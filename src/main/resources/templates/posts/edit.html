@@ -3,16 +3,17 @@
 <head th:replace="partials/head :: head('Edit Post')"></head>
 <body>
 <nav th:replace="partials/navbar"></nav>
-<form th:action="@{/posts/{id}/edit(id=${post.id})}" method="post">
+<form th:action="@{/posts/{id}/edit(id=${post.id})}" th:method="post" th:object="${post}">
     <div class="form-group">
         <label for="title">Title</label>
-        <input type="text" name="title" class="form-control" id="title" aria-describedby="titleHelp" th:value="${post.title}" >
+        <input th:field="*{title}" type="text" class="form-control" id="title" aria-describedby="titleHelp">
         <small id="titleHelp" class="form-text text-muted"></small>
     </div>
     <div class="form-group">
         <label for="description">Content</label>
-        <input name="description" type="text" class="form-control" id="description" th:value="${post.description}" >
+        <input th:field="*{description}" type="text" class="form-control" id="description" >
     </div>
+    <input th:field="*{author}" th:type="hidden">
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 <form th:action="@{/posts/{id}/delete(id=${post.id})}" th:method="post">
