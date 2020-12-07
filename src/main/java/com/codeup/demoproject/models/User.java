@@ -20,7 +20,6 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private List<Post> posts;
-
     public User(){}
     //read
     public User(long id, String email,String username, String password){
@@ -34,6 +33,13 @@ public class User {
         this.email = email;
         this.username = username;
         this.password = password;
+    }
+    // security
+    public User(User copy) {
+        id = copy.id; // This line is SUPER important! Many things won't work if it's absent
+        email = copy.email;
+        username = copy.username;
+        password = copy.password;
     }
 
     public long getId() {

@@ -3,6 +3,8 @@ package com.codeup.demoproject.controllers;
 import com.codeup.demoproject.models.Ad;
 import com.codeup.demoproject.models.User;
 import com.codeup.demoproject.repos.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,14 +15,15 @@ import java.util.Map;
 
 @Controller
 public class AdController {
+    @Autowired
+    private AdRepository adDao;
+    @Autowired
+    private UserRepository userDao;
 
-    private final AdRepository adDao;
-    private final UserRepository userDao;
-
-    public AdController(AdRepository adDao,UserRepository userDao){
-        this.adDao = adDao;
-        this.userDao = userDao;
-    }
+//    public AdController(AdRepository adDao,UserRepository userDao){
+//        this.adDao = adDao;
+//        this.userDao = userDao;
+//    }
 
     @GetMapping("/ads")
     public String index(Model model){
@@ -50,7 +53,7 @@ public class AdController {
 
     @PostMapping("/ads/create")
     public String createAd(@ModelAttribute Ad adToSave){
-        User uDb = userDao.getOne(1L);
+        User uDb = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         adToSave.setOwner(uDb);
         Ad dbAd = adDao.save(adToSave);
         return "redirect:/ads/"+dbAd.getId();
