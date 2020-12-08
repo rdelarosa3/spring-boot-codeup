@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="partials/head :: head(${user.username + ' Profile'})">
 </head>
 <body>
@@ -13,7 +13,7 @@
         <li th:text="${post.title}"></li>
         <li th:text="${post.description}"></li>
         <li th:text="${post.author.username}"></li>
-        <li><a th:href="@{/posts/{id}/edit(id=${post.id})}">Edit post</a></li>
+        <li sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}"><a th:href="@{/posts/{id}/edit(id=${post.id})}">Edit post</a></li>
     </ul>
 
     <a th:href="@{|/posts|}">View all posts</a>

@@ -5,23 +5,41 @@ import com.codeup.demoproject.models.User;
 import com.codeup.demoproject.repos.AdRepository;
 import com.codeup.demoproject.repos.PostRepository;
 import com.codeup.demoproject.repos.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @Controller
 public class UserController {
+    @Autowired
     private UserRepository userDao;
+    @Autowired
     private PostRepository postDao;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public UserController(UserRepository userDao, PostRepository postDao){
-        this.userDao = userDao;
-        this.postDao = postDao;
+//    public UserController(UserRepository userDao, PostRepository postDao,PasswordEncoder passwordEncoder){
+//        this.userDao = userDao;
+//        this.postDao = postDao;
+//        this.passwordEncoder = passwordEncoder;
+//    }
+
+    @GetMapping("/sign-up")
+    public String showSignupForm(Model model){
+        model.addAttribute("user", new User());
+        return "users/sign-up";
+    }
+
+    @PostMapping("/sign-up")
+    public String saveUser(@ModelAttribute User user){
+        String hash = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hash);
+        userDao.save(user);
+        return "redirect:/login";
     }
 
     @GetMapping("users/create")

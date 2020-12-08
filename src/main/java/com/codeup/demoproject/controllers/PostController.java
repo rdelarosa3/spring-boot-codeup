@@ -7,6 +7,8 @@ import com.codeup.demoproject.models.User;
 import com.codeup.demoproject.repos.PostRepository;
 import com.codeup.demoproject.repos.UserRepository;
 import com.codeup.demoproject.services.EmailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,18 +18,18 @@ import java.util.Map;
 
 @Controller
 public class PostController {
-    private final PostRepository postDao;
-    private final UserRepository userDao;
-    private final EmailService emailService;
+    @Autowired
+    private PostRepository postDao;
+    @Autowired
+    private UserRepository userDao;
+    @Autowired
+    private EmailService emailService;
 
-
-    public PostController(PostRepository postDao,UserRepository userDao,EmailService emailService) {
-        this.postDao = postDao;
-        this.userDao = userDao;
-        this.emailService = emailService;
-    }
-
-
+//    public PostController(PostRepository postDao,UserRepository userDao,EmailService emailService) {
+//        this.postDao = postDao;
+//        this.userDao = userDao;
+//        this.emailService = emailService;
+//    }
 
     @GetMapping("/posts")
     public String index(Model model){
@@ -49,7 +51,7 @@ public class PostController {
 
     @PostMapping("/posts/create")
     public String submitPost(@ModelAttribute Post postToSave){
-        User uDb = userDao.getOne(1L);
+        User uDb = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         postToSave.setAuthor(uDb);
         Post pDb = postDao.save(postToSave);
         String subject = "Thank you from Adlister";
