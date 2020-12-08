@@ -17,18 +17,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Random;
 
 @Component
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-
-    private final UserRepository userDao;
-
-    private final PasswordEncoder passwordEncoder;
-
-    public OAuth2LoginSuccessHandler(UserRepository userDao, PasswordEncoder passwordEncoder) {
-        this.userDao = userDao;
-        this.passwordEncoder = passwordEncoder;
-    }
+    @Autowired
+    private UserRepository userDao;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -38,7 +32,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         if(dbUser == null){
             System.out.println("REGISTERING USER");
            //register as new user
-            User user = new User(email,email,passwordEncoder.encode("password"));
+            User user = new User(email,email,randomPassword(15));
             user.setAuthProvider(AuthenticationProvider.GOOGLE);
             User regUser = userDao.save(user);
             reAuthenticateUser(dbUser);
@@ -50,7 +44,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             userDao.save(dbUser);
             response.sendRedirect("/posts");
         }
-//        super.onAuthenticationSuccess(request, response, authentication);
+        super.onAuthenticationSuccess(request, response, authentication);
     }
 
     public void reAuthenticateUser(User regUser){
@@ -58,5 +52,15 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 authUser, authUser.getPassword(), authUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    public static String randomPassword(int len) {
+        String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk"
+                +"lmnopqrstuvwxyz!@#$%&";
+        Random rnd = new Random();
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++)
+            sb.append(chars.charAt(rnd.nextInt(chars.length())));
+        return sb.toString();
     }
 }

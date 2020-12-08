@@ -46,6 +46,7 @@ public class User {
         username = copy.username;
         password = copy.password;
     }
+    
 
     public long getId() {
         return id;
