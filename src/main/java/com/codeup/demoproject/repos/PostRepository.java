@@ -12,6 +12,7 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
     // Query methods
     Post findByDescription(String desc); // mysql> select * from ads where description = ?;
+    Post findByTitle(String title);
     List<Post> findAllByTitleIsLike(String term);
     List<Post> findAllByAuthor(User author);
     List<Post> findAllByTitleLikeOrDescriptionLike(String title,String desc);
