@@ -18,10 +18,13 @@ public class User {
     @Column(nullable = false,length = 100)
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name= "auth_provider")
+    private AuthenticationProvider authProvider;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private List<Post> posts;
 
-    
     public User(){}
     //read
     public User(long id, String email,String username, String password){
@@ -82,5 +85,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public AuthenticationProvider getAuthProvider() {
+        return authProvider;
+    }
+
+    public void setAuthProvider(AuthenticationProvider authProvider) {
+        this.authProvider = authProvider;
     }
 }
