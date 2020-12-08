@@ -14,6 +14,8 @@
         <li th:text="${post.description}"></li>
         <li th:text="${post.author.username}"></li>
         <li sec:authorize="isAuthenticated()" th:if="${#authentication.principal.email == user.email}"><a th:href="@{/posts/{id}/edit(id=${post.id})}">Edit post</a></li>
+        <li sec:authorize="isAuthenticated()" th:if="${#authentication.principal. == user.email}"><a th:href="@{/posts/{id}/edit(id=${post.id})}">Edit post</a></li>
+
     </ul>
 
     <a th:href="@{|/posts|}">View all posts</a>

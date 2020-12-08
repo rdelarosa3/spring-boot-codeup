@@ -3,9 +3,12 @@ package com.codeup.demoproject.security;
 import com.codeup.demoproject.models.AuthenticationProvider;
 import com.codeup.demoproject.models.CustomOAuth2User;
 import com.codeup.demoproject.models.User;
+import com.codeup.demoproject.models.UserWithRoles;
 import com.codeup.demoproject.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -33,6 +36,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             User user = new User(email,email,passwordEncoder.encode("password"));
             user.setAuthProvider(AuthenticationProvider.GOOGLE);
             User regUser = userDao.save(user);
+            reAuthenticateUser(dbUser);
             response.sendRedirect("/users/"+regUser.getId()+"edit");
         }else{
             System.out.println("USER EXISTS");
@@ -42,5 +46,12 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             response.sendRedirect("/posts");
         }
 //        super.onAuthenticationSuccess(request, response, authentication);
+    }
+
+    public void reAuthenticateUser(User regUser){
+        UserWithRoles authUser = new UserWithRoles(regUser);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                authUser, authUser.getPassword(), authUser.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

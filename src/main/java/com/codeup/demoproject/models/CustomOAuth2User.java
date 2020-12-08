@@ -6,7 +6,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import java.util.Collection;
 import java.util.Map;
 
-public class CustomOAuth2User implements OAuth2User {
+public class CustomOAuth2User implements OAuth2User{
 
     private final OAuth2User oauth2User;
 
@@ -36,4 +36,5 @@ public class CustomOAuth2User implements OAuth2User {
     public String getEmail(){
         return oauth2User.getAttributes().get("email").toString();
     }
+    
 }
