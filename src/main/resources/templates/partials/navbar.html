@@ -25,10 +25,12 @@
                 </div>
             </li>
             <li>
+                <a  sec:authorize="isAnonymous()" th:href="@{/login}" class="nav-link" style="margin-top: 8px">Login</a>
                 <form th:action="@{/logout}" th:method="post">
-                    <button class="btn-link btn" style="margin-top: 8px">Logout</button>
+                    <button sec:authorize="isAuthenticated()" class="btn-link btn" style="margin-top: 8px">Logout</button>
                 </form>
             </li>
+            
         </ul>
     </div>
 </nav>

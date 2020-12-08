@@ -20,6 +20,8 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private List<Post> posts;
+
+    
     public User(){}
     //read
     public User(long id, String email,String username, String password){
