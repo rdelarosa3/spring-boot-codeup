@@ -9,7 +9,9 @@
 <div th:if="${param.logout}">
     You have been logged out.
 </div>
-
+<div>
+    <h4><a th:href="@{/oauth2/authorization/google}">Login with Google</a> </h4>
+</div>
 <form th:action="@{/login}" method="post">
     <label for="username">Username</label>
     <input id="username" name="username" type="text" />

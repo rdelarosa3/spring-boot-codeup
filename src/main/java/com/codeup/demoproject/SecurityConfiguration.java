@@ -1,5 +1,8 @@
 package com.codeup.demoproject;
 
+import com.codeup.demoproject.models.CustomOAuth2User;
+import com.codeup.demoproject.security.OAuth2LoginSuccessHandler;
+import com.codeup.demoproject.services.CustomOAuth2UserService;
 import com.codeup.demoproject.services.UserDetailsLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +20,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsLoader usersLoader;
-
+    @Autowired
+    private CustomOAuth2UserService oAuth2UserService;
+    @Autowired
+    private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+    
 //    public SecurityConfiguration(UserDetailsLoader usersLoader) {
 //        this.usersLoader = usersLoader;
 //    }
@@ -52,7 +59,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 /* Pages that can be viewed without having to log in */
-                    .antMatchers("/", "/ads","/posts").permitAll()
+                    .antMatchers(
+                            "/",
+                            "/ads",
+                            "/posts",
+                            "/oauth2/*"
+                    ).permitAll()
                 /* Pages that require authentication */
                     .antMatchers(
                         "/ads/create",
@@ -68,16 +80,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 /* Login configuration */
                 .formLogin()
-                .loginPage("/login").defaultSuccessUrl("/posts").permitAll()  //  all can access login page & on success redirect, it can be any URL
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/posts").permitAll()  //  all can access login page & on success redirect, it can be any URL
+                /* OAuth2 login */
+                .and()
+                .oauth2Login()
+                    .loginPage("/login")
+                    .userInfoEndpoint().userService(oAuth2UserService)
+                    .and()
+                    .successHandler(oAuth2LoginSuccessHandler)
                 /* Logout configuration */
                 .and()
                 .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout") // append a query string value
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/login?logout") // append a query string value
                 .and()
                 /* remember me feature */
                 .rememberMe()
-                .tokenValiditySeconds(2592000)// sets expiration of token for remember me
+                    .tokenValiditySeconds(2592000)// sets expiration of token for remember me
 
                 /* customizing login form urls or params */
 //                .and()
