@@ -20,11 +20,16 @@ import java.io.IOException;
 
 @Component
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-    @Autowired
-    private UserRepository userDao;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    
+
+    private final UserRepository userDao;
+
+    private final PasswordEncoder passwordEncoder;
+
+    public OAuth2LoginSuccessHandler(UserRepository userDao, PasswordEncoder passwordEncoder) {
+        this.userDao = userDao;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
