@@ -39,20 +39,24 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             System.out.println("USERS ID: "+regUser.getId());
             response.sendRedirect("/users/"+regUser.getId());
         }else{
-            System.out.println("USER EXISTS");
+            System.out.println("GETTING USER");
             // update existing customer
-            dbUser.setAuthProvider(AuthenticationProvider.GOOGLE);
-            userDao.save(dbUser);
+            if(!dbUser.getAuthProvider().toString().equalsIgnoreCase("google")){
+                dbUser.setAuthProvider(AuthenticationProvider.GOOGLE);
+                dbUser = userDao.save(dbUser);
+            }
+            reAuthenticateUser(dbUser);
             response.sendRedirect("/posts");
         }
 //        super.onAuthenticationSuccess(request, response, authentication);
     }
 
     public void reAuthenticateUser(User regUser){
-        System.out.println("IN RE-AUTH");
+        System.out.println("Authenticating Google User from DB");
         UserWithRoles authUser = new UserWithRoles(regUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(
-                authUser, authUser.getPassword(), authUser.getAuthorities());
+                authUser, authUser.getPassword(), authUser.getAuthorities()
+        );
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
