@@ -35,8 +35,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             User user = new User(email,email,randomPassword(15));
             user.setAuthProvider(AuthenticationProvider.GOOGLE);
             User regUser = userDao.save(user);
-            reAuthenticateUser(dbUser);
-            response.sendRedirect("/users/"+regUser.getId()+"edit");
+            reAuthenticateUser(regUser);
+            System.out.println("USERS ID: "+regUser.getId());
+            response.sendRedirect("/users/"+regUser.getId());
         }else{
             System.out.println("USER EXISTS");
             // update existing customer
@@ -44,10 +45,11 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             userDao.save(dbUser);
             response.sendRedirect("/posts");
         }
-        super.onAuthenticationSuccess(request, response, authentication);
+//        super.onAuthenticationSuccess(request, response, authentication);
     }
 
     public void reAuthenticateUser(User regUser){
+        System.out.println("IN RE-AUTH");
         UserWithRoles authUser = new UserWithRoles(regUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 authUser, authUser.getPassword(), authUser.getAuthorities());
@@ -55,6 +57,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     }
 
     public static String randomPassword(int len) {
+        System.out.println("IN AUTO HASH");
         String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk"
                 +"lmnopqrstuvwxyz!@#$%&";
         Random rnd = new Random();
