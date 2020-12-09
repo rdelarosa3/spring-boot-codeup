@@ -16,7 +16,7 @@
         <td th:utext="${post.id}"></td>
         <td th:utext="${post.title}"></td>
         <td th:utext="${post.description}"></td>
-        <td th:utext="${post.author.email}"></td>
+        <td th:utext="${post.author.username}"></td>
         <td><a th:href="@{/posts/{id}(id=${post.id})}">view</a></td>
     </tr>
 </table>
