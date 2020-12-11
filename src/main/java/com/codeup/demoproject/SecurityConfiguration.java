@@ -22,16 +22,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private CustomOAuth2UserService oAuth2UserService;
     @Autowired
     private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
-    
-//    public SecurityConfiguration(UserDetailsLoader usersLoader) {
-//        this.usersLoader = usersLoader;
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+/*  Method to authenticate the user and encrypt password */
     @Bean
     DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -44,11 +40,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .authenticationProvider(authenticationProvider())
-//                codeup method to authenticate
-                // How to find users by their username
-//                .userDetailsService(usersLoader)
-                // How to encode and verify passwords
-//                .passwordEncoder(passwordEncoder())
         ;
     }
 
@@ -96,8 +87,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 /* remember me feature */
                 .rememberMe()
                     .tokenValiditySeconds(2592000)// sets expiration of token for remember me
-
-                /* customizing login form urls or params */
+/*        customizing login form urls or params */
 //                .and()
 //                .formLogin()
 //                .loginProcessingUrl("/sigin")

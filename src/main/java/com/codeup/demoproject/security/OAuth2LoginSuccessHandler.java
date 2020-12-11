@@ -18,6 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Random;
 
+/* This handler is a hacky way of attaching the user db. It checks if the Oauth users email is in the db;
+if the email is in db it updates the users information if not it creates the user in the db;
+the user is then grabbed from the db and re-authenticated.
+ */
 @Component
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     @Autowired
@@ -31,7 +35,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         if(dbUser == null){
             System.out.println("REGISTERING USER");
            //register as new user
-            User user = new User(email,email,randomPassword(15));
+            User user = new User(email,email,randomPassword(30));
             user.setAuthProvider(AuthenticationProvider.GOOGLE);
             User regUser = userDao.save(user);
             reAuthenticateUser(regUser);
@@ -47,9 +51,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             reAuthenticateUser(dbUser);
             response.sendRedirect("/posts");
         }
-//        super.onAuthenticationSuccess(request, response, authentication);
     }
 
+//  method to authenticate the db user grabbed from the Oauth email.
     public void reAuthenticateUser(User regUser){
         System.out.println("Authenticating Google User from DB");
         UserWithRoles authUser = new UserWithRoles(regUser);
@@ -59,6 +63,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
+// random autohashed password to give the user when logged in with Oauth
     public static String randomPassword(int len) {
         System.out.println("IN AUTO HASH");
         String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk"
