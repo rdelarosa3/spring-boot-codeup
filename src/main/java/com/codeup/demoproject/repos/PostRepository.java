@@ -3,7 +3,6 @@ package com.codeup.demoproject.repos;
 import com.codeup.demoproject.models.Post;
 import com.codeup.demoproject.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

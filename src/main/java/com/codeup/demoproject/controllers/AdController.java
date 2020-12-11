@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import com.codeup.demoproject.repos.AdRepository;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class AdController {

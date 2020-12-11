@@ -1,6 +1,5 @@
 package com.codeup.demoproject;
 
-import com.codeup.demoproject.models.CustomOAuth2User;
 import com.codeup.demoproject.security.OAuth2LoginSuccessHandler;
 import com.codeup.demoproject.services.CustomOAuth2UserService;
 import com.codeup.demoproject.services.UserDetailsLoader;
@@ -13,7 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
