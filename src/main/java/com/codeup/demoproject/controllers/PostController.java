@@ -1,7 +1,6 @@
 package com.codeup.demoproject.controllers;
 
 
-import com.codeup.demoproject.models.Ad;
 import com.codeup.demoproject.models.Post;
 import com.codeup.demoproject.models.User;
 import com.codeup.demoproject.repos.PostRepository;
@@ -14,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class PostController {

@@ -1,8 +1,6 @@
 package com.codeup.demoproject.controllers;
 
-import com.codeup.demoproject.models.Post;
 import com.codeup.demoproject.models.User;
-import com.codeup.demoproject.repos.AdRepository;
 import com.codeup.demoproject.repos.PostRepository;
 import com.codeup.demoproject.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
